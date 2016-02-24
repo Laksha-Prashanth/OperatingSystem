@@ -25,11 +25,8 @@ bl SetGpio
 .unreq pinNum
 .unreq pinVal
 
-mov r2,#0x3f0000
-wait$:
-sub r2,#1
-cmp r2,#0
-bne wait$
+ldr r0,=0xf4240
+bl Wait
 
 pinNum .req r0
 pinVal .req r1
