@@ -1,5 +1,6 @@
 .section .init
 .globl _start
+
 _start:
 b main
 
@@ -7,39 +8,53 @@ b main
 main:
 mov sp,#0x8000
 
-pinNum .req r0
-pinFunc .req r1
-mov pinNum,#16
-mov pinFunc,#1
+mov r0,#1024
+mov r1,#768
+mov r2,#16
+bl InitialiseFrameBuffer
+
+//Switch on OK LED if there is a problem
+teq r0,#0
+bne noError$
+
+mov r0,#16
+mov r1,#1
 bl SetGpioFunction
-.unreq pinNum
-.unreq pinFunc
-
-loop$:
-
-pinNum .req r0
-pinVal .req r1
-mov pinNum,#16
-mov pinVal,#0
+mov r0,#16
+mov r1,#0
 bl SetGpio
-.unreq pinNum
-.unreq pinVal
 
-ldr r0,=0xf4240
-bl Wait
+error$:
+b error$
 
-pinNum .req r0
-pinVal .req r1
-mov pinNum,#16
-mov pinVal,#1
-bl SetGpio
-.unreq pinNum
-.unreq pinVal
+noError$:
+fbInfoAddr .req r4
+mov fbInfoAddr,r0
 
-mov r2,#0x3f0000
-wait1$:
-sub r2,#1
-cmp r2,#0
-bne wait1$
+render$:
+	fbAddr .req r3
+	ldr fbAddr,[fbInfoAddr,#32]
+	
+	colour .req r0
+	ldr colour,=0xf000
+	y .req r1
+	mov y,#768
+	drawRow$:
+		x .req r2
+		mov x,#1024
+		drawPixel$:
+			strh colour,[fbAddr]
+			add fbAddr,#2
+			sub x,#1
+			teq x,#0
+			bne drawPixel$
+		
+		sub y,#1
+		//add colour,#1
+		teq y,#0
+		bne drawRow$
+	
+	b render$
 
-b loop$
+.unreq fbAddr
+.unreq fbInfoAddr
