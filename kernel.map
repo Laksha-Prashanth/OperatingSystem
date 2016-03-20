@@ -1,6 +1,9 @@
 
 Discarded input sections
 
+ .bss           0x0000000000000000        0x0 build/drawing.o
+ .ARM.attributes
+                0x0000000000000000       0x14 build/drawing.o
  .bss           0x0000000000000000        0x0 build/framebuffer.o
  .ARM.attributes
                 0x0000000000000000       0x14 build/framebuffer.o
@@ -13,6 +16,9 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 build/main.o
  .ARM.attributes
                 0x0000000000000000       0x14 build/main.o
+ .bss           0x0000000000000000        0x0 build/random.o
+ .ARM.attributes
+                0x0000000000000000       0x14 build/random.o
  .bss           0x0000000000000000        0x0 build/timer.o
  .ARM.attributes
                 0x0000000000000000       0x14 build/timer.o
@@ -24,10 +30,12 @@ Name             Origin             Length             Attributes
 
 Linker script and memory map
 
+LOAD build/drawing.o
 LOAD build/framebuffer.o
 LOAD build/gpio.o
 LOAD build/mailbox.o
 LOAD build/main.o
+LOAD build/random.o
 LOAD build/timer.o
 
 .init           0x0000000000008000        0x4
@@ -35,32 +43,42 @@ LOAD build/timer.o
  .init          0x0000000000008000        0x4 build/main.o
                 0x0000000000008000                _start
 
-.text           0x0000000000008004      0x204
+.text           0x0000000000008004      0x304
  *(.text)
- .text          0x0000000000008004       0x60 build/framebuffer.o
-                0x0000000000008004                InitialiseFrameBuffer
- .text          0x0000000000008064       0x80 build/gpio.o
-                0x0000000000008064                GetGpioAddress
-                0x000000000000806c                SetGpioFunction
-                0x00000000000080a4                SetGpio
- .text          0x00000000000080e4       0x78 build/mailbox.o
-                0x00000000000080e4                GetMailboxBase
-                0x00000000000080ec                MailboxWrite
-                0x0000000000008120                MailboxRead
- .text          0x000000000000815c       0x70 build/main.o
- .text          0x00000000000081cc       0x3c build/timer.o
-                0x00000000000081cc                GetSystemTimerBase
-                0x00000000000081d4                GetTimeStamp
-                0x00000000000081e4                Wait
+ .text          0x0000000000008004       0xec build/drawing.o
+                0x0000000000008004                SetForeColour
+                0x0000000000008018                SetGraphicsAddress
+                0x0000000000008024                DrawPixel
+                0x000000000000806c                DrawLine
+ .text          0x00000000000080f0       0x60 build/framebuffer.o
+                0x00000000000080f0                InitialiseFrameBuffer
+ .text          0x0000000000008150       0x80 build/gpio.o
+                0x0000000000008150                GetGpioAddress
+                0x0000000000008158                SetGpioFunction
+                0x0000000000008190                SetGpio
+ .text          0x00000000000081d0       0x78 build/mailbox.o
+                0x00000000000081d0                GetMailboxBase
+                0x00000000000081d8                MailboxWrite
+                0x000000000000820c                MailboxRead
+ .text          0x0000000000008248       0x6c build/main.o
+ .text          0x00000000000082b4       0x18 build/random.o
+                0x00000000000082b4                Random
+ .text          0x00000000000082cc       0x3c build/timer.o
+                0x00000000000082cc                GetSystemTimerBase
+                0x00000000000082d4                GetTimeStamp
+                0x00000000000082e4                Wait
 
-.data           0x0000000000008210       0x30
+.data           0x0000000000008310       0x40
  *(.data)
- .data          0x0000000000008210       0x30 build/framebuffer.o
-                0x0000000000008210                FrameBufferInfo
- .data          0x0000000000008240        0x0 build/gpio.o
- .data          0x0000000000008240        0x0 build/mailbox.o
- .data          0x0000000000008240        0x0 build/main.o
- .data          0x0000000000008240        0x0 build/timer.o
+ .data          0x0000000000008310        0x8 build/drawing.o
+ *fill*         0x0000000000008318        0x8 
+ .data          0x0000000000008320       0x30 build/framebuffer.o
+                0x0000000000008320                FrameBufferInfo
+ .data          0x0000000000008350        0x0 build/gpio.o
+ .data          0x0000000000008350        0x0 build/mailbox.o
+ .data          0x0000000000008350        0x0 build/main.o
+ .data          0x0000000000008350        0x0 build/random.o
+ .data          0x0000000000008350        0x0 build/timer.o
 
 /DISCARD/
  *(*)

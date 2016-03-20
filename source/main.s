@@ -31,29 +31,19 @@ noError$:
 fbInfoAddr .req r4
 mov fbInfoAddr,r0
 
+bl SetGraphicsAddress
+
 render$:
 	fbAddr .req r3
 	ldr fbAddr,[fbInfoAddr,#32]
 	
-	colour .req r0
-	ldr colour,=0xf000
-	y .req r1
-	mov y,#768
-	drawRow$:
-		x .req r2
-		mov x,#1024
-		drawPixel$:
-			strh colour,[fbAddr]
-			add fbAddr,#2
-			sub x,#1
-			teq x,#0
-			bne drawPixel$
-		
-		sub y,#1
-		//add colour,#1
-		teq y,#0
-		bne drawRow$
-	
+	ldr r0,=0xf0ff
+	bl SetForeColour
+	ldr r0,=0x5
+	ldr r1,=0x5
+	ldr r2,=0xfff5
+	ldr r3,=0xfff5
+	bl DrawLine
 	b render$
 
 .unreq fbAddr
