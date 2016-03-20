@@ -44,6 +44,11 @@ render$:
 	ldr r2,=0xfff5
 	ldr r3,=0xfff5
 	bl DrawLine
+	
+	mov r0,#75
+	mov r1,#25
+	mov r2,#25
+	bl DrawCharacter
 	b render$
 
 .unreq fbAddr
