@@ -6,9 +6,12 @@ shift .req r2
 current .req r3
 
 clz shift,r1
+clz r3,r0
+subs shift,r3
 lsl current,r1,shift
 mov remainder,r0
 mov result,#0
+
 
 loop$:
 	cmp shift,#0

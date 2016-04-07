@@ -33,31 +33,17 @@ mov fbInfoAddr,r0
 
 bl SetGraphicsAddress
 
-render$:
-	
-	ldr r0,=0xf0ff
-	bl SetForeColour
-	ldr r0,=0x5
-	ldr r1,=0x5
-	ldr r2,=0xfff5
-	ldr r3,=0xfff5
-	bl DrawLine
-
-	ldr r0,=stri
-	mov r1,#7
-	mov r2,#105
-	mov r3,#105
-	bl DrawString
-	
-	ldr r0,=0x00ff
-	bl SetForeColour
-	ldr r0,=0x5
-	ldr r1,=0x55
-	ldr r2,=0x25
-	ldr r3,=0xfff5
-	bl DrawLine
-
-	b render$
+mov r0,#9
+bl FindTag
+ldr r1,[r0]
+lsl r1,#2
+sub r1,#8
+add r0,#8
+mov r2,#0
+mov r3,#0
+bl DrawString
+loop$:
+b loop$
 
 .section .data
 .align 4
