@@ -50,7 +50,7 @@ mov r1,#commandEnd-command
 bl ReadLine
 
 teq r0,#0
-beq loopContineu$
+beq loopContinue$
 mov r4,r0
 ldr r5,=command
 ldr r6,=commandTable
@@ -145,11 +145,11 @@ okAct$:
 
 .section .data
 .align 2
-welcome: .ascii "Raspberry pi Operating System"
+welcome: .ascii "Raspberry Pi Operating System"
 welcomeEnd:
 
 .align 2
-prompt: .ascii "\n$: "
+prompt: .ascii "\n$ "
 promptEnd:
 
 .align 2
@@ -161,7 +161,7 @@ commandEnd:
 .byte 0
 
 .align 2
-commandUnknown: .ascii "Command $s was not recognised\n"
+commandUnknown: .ascii "Command %s was not recognised\n"
 commandUnknownEnd:
 
 .align 2
