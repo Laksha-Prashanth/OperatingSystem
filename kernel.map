@@ -99,11 +99,11 @@ LOAD ./libcsud.a
  .data          0x0000000000008940        0x0 build/gpio.o
  .data          0x0000000000008940       0xe0 build/keyboard.o
  .data          0x0000000000008a20        0x0 build/mailbox.o
- .data          0x0000000000008a20      0x200 build/main.o
- .data          0x0000000000008c20        0x0 build/math.o
- .data          0x0000000000008c20        0x0 build/random.o
- .data          0x0000000000008c20       0x24 build/tag.o
- *fill*         0x0000000000008c44       0xbc 
+ .data          0x0000000000008a20      0x258 build/main.o
+ .data          0x0000000000008c78        0x0 build/math.o
+ .data          0x0000000000008c78        0x0 build/random.o
+ .data          0x0000000000008c78       0x24 build/tag.o
+ *fill*         0x0000000000008c9c       0x64 
  .data          0x0000000000008d00     0xb100 build/terminal.o
  .data          0x0000000000013e00        0x0 build/text.o
  .data          0x0000000000013e00        0x0 build/timer.o
@@ -291,7 +291,7 @@ LOAD ./libcsud.a
  .ARM.attributes
                 0x000000000001fd50       0x32 ./libcsud.a(platform.broadcom2835.c.o)
 
-.text           0x000000000001fd84      0xbc0
+.text           0x000000000001fd84      0xbd0
  *.c.o(.text)
  *(.text)
  .text          0x000000000001fd84      0x1d4 build/drawing.o
@@ -315,27 +315,27 @@ LOAD ./libcsud.a
                 0x000000000002017c                GetMailboxBase
                 0x0000000000020184                MailboxWrite
                 0x00000000000201b8                MailboxRead
- .text          0x00000000000201f4      0x1a0 build/main.o
- .text          0x0000000000020394       0x48 build/math.o
-                0x0000000000020394                DivideU32
- .text          0x00000000000203dc       0x18 build/random.o
-                0x00000000000203dc                Random
- .text          0x00000000000203f4       0x70 build/tag.o
-                0x00000000000203f4                FindTag
- .text          0x0000000000020464      0x2c0 build/terminal.o
-                0x000000000002049c                TerminalDisplay
-                0x0000000000020544                TerminalClear
-                0x000000000002055c                Print
-                0x0000000000020634                ReadLine
- .text          0x0000000000020724      0x1e4 build/text.o
-                0x0000000000020724                ReverseString
-                0x0000000000020750                UnsignedString
-                0x00000000000207a0                SignedString
-                0x00000000000207cc                FormatString
- .text          0x0000000000020908       0x3c build/timer.o
-                0x0000000000020908                GetSystemTimerBase
-                0x0000000000020910                GetTimeStamp
-                0x0000000000020920                Wait
+ .text          0x00000000000201f4      0x1b0 build/main.o
+ .text          0x00000000000203a4       0x48 build/math.o
+                0x00000000000203a4                DivideU32
+ .text          0x00000000000203ec       0x18 build/random.o
+                0x00000000000203ec                Random
+ .text          0x0000000000020404       0x70 build/tag.o
+                0x0000000000020404                FindTag
+ .text          0x0000000000020474      0x2c0 build/terminal.o
+                0x00000000000204ac                TerminalDisplay
+                0x0000000000020554                TerminalClear
+                0x000000000002056c                Print
+                0x0000000000020644                ReadLine
+ .text          0x0000000000020734      0x1e4 build/text.o
+                0x0000000000020734                ReverseString
+                0x0000000000020760                UnsignedString
+                0x00000000000207b0                SignedString
+                0x00000000000207dc                FormatString
+ .text          0x0000000000020918       0x3c build/timer.o
+                0x0000000000020918                GetSystemTimerBase
+                0x0000000000020920                GetTimeStamp
+                0x0000000000020930                Wait
 
 /DISCARD/
  *(*)

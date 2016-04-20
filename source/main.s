@@ -143,7 +143,19 @@ okAct$:
 	mov r0,#16
 	b SetGpio
 
+about:
+	ldr r0,=aboutString
+	mov r1,#aboutEnd-aboutString
+	b Print
+
+
+
+
 .section .data
+aboutString:
+	.ascii "Made by Laksha Prashanth and Aravind Niranjan. Check out the code at github."
+aboutEnd:
+
 .align 2
 welcome: .ascii "Raspberry Pi Operating System"
 welcomeEnd:
@@ -176,6 +188,7 @@ commandStringEcho: .ascii "echo"
 commandStringReset: .ascii "reset"
 commandStringOk: .ascii "ok"
 commandStringCls: .ascii "cls"
+commandStringAbout: .ascii "about"
 commandStringEnd:
 
 .align 2
@@ -184,4 +197,5 @@ commandTable:
 .int commandStringReset,reset$
 .int commandStringOk, ok
 .int commandStringCls, TerminalClear
+.int commandStringAbout, about
 .int commandStringEnd, 0
