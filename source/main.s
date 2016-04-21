@@ -148,10 +148,40 @@ about:
 	mov r1,#aboutEnd-aboutString
 	b Print
 
+add:
+	teq r1,#7
+	beq add$
+	mov pc,lr
+	add$:
+	ldrb r2,[r0,#4]
+	ldrb r3,[r0,#6]
+	add r2,r3
+	ldr r0,=number
+	sub r2,#48
+	str r2,[r0]
+	mov r1,#2
+	b Print
 
-
+sub:
+	teq r1,#7
+	beq sub$
+	mov pc,lr
+	sub$:
+	ldrb r2,[r0,#4]
+	ldrb r3,[r0,#6]
+	sub r2,r3
+	ldr r0,=number
+	add r2,#48
+	str r2,[r0]
+	mov r1,#2
+	b Print	
 
 .section .data
+.align 2
+number:
+.int 0
+
+.align 2
 aboutString:
 	.ascii "Made by Laksha Prashanth and Aravind Niranjan. Check out the code at github."
 aboutEnd:
@@ -189,6 +219,8 @@ commandStringReset: .ascii "reset"
 commandStringOk: .ascii "ok"
 commandStringCls: .ascii "cls"
 commandStringAbout: .ascii "about"
+commandStringAdd: .ascii "add"
+commandStringSub: .ascii "sub"
 commandStringEnd:
 
 .align 2
@@ -198,4 +230,6 @@ commandTable:
 .int commandStringOk, ok
 .int commandStringCls, TerminalClear
 .int commandStringAbout, about
+.int commandStringAdd, add
+.int commandStringSub, sub
 .int commandStringEnd, 0

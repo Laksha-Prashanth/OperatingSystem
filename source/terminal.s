@@ -1,52 +1,18 @@
-/******************************************************************************
-*	terminal.s
-*	 by Alex Chadwick
-*
-*	A sample assembly code implementation of the input02 operating system.
-*	See main.s for details.
-*
-*	terminal.s contains code to do with the text terminal which the os uses
-******************************************************************************/
-
 .section .data
 .align 4
 
-/* NEW
-* terminalStart is the address in the terminalBuffer of the first valid 
-* character.
-* C++ Signature: u32 terminalStart;
-*/
 terminalStart:
 	.int terminalBuffer
 
-/* NEW
-* terminalStop is the address in the terminalBuffer of the last valid
-* character.
-* C++ Signature: u32 terminalStop;
-*/
 terminalStop:
 	.int terminalBuffer
 
-/* NEW
-* terminalView is the address in the terminalBuffer of the first displayed
-* character.
-* C++ Signature: u32 terminalView;
-*/
 terminalView:
 	.int terminalBuffer
 	
-/* NEW
-* terminalInput is the address in the terminalBuffer of the first character of
-* the text being input.
-* C++ Signature: u32 terminalView;
-*/
 terminalColour:
 	.byte 0xf
 
-/* NEW
-* terminalBuffer is where all text is stored for the console.
-* C++ Signature: u16 terminalBuffer[128*128];
-*/
 .align 8
 terminalBuffer:
 	.rept 128*128
@@ -54,11 +20,6 @@ terminalBuffer:
 	.byte 0x0
 	.endr
 	
-/* NEW
-* terminalScreen stores the text last rendered to the screnn by the console.
-* This means when redrawing the screen, only changes need be drawn.
-* C++ Signature: u16 terminalScreen[1024/8 * 768/16];
-*/
 terminalScreen:
 	.rept 1024/8 * 768/16
 	.byte 0x7f
@@ -66,11 +27,7 @@ terminalScreen:
 	.endr
 	
 .section .text			
-/* NEW
-* Sets the fore colour to the specified terminal colour. The low 4 bits of r0
-* contains the terminal colour code.
-* C++ Signature: void TerminalColour(u8 colour);
-*/
+
 TerminalColour:
 	teq r0,#6
 	ldreq r0,=0x02B5
@@ -88,10 +45,7 @@ TerminalColour:
 	mov r0,r1
 	b SetForeColour
 
-/* NEW
-* Copies the currently displayed part of TerminalBuffer to the screen.
-* C++ Signature: void TerminalDisplay();
-*/
+
 .globl TerminalDisplay
 TerminalDisplay:
 	push {r4,r5,r6,r7,r8,r9,r10,r11,lr}
@@ -134,7 +88,7 @@ TerminalDisplay:
 			mov r1,x
 			mov r2,y
 			bl DrawCharacter
-						
+	
 			and r0,col,#0xf
 			bl TerminalColour
 
@@ -167,10 +121,7 @@ TerminalDisplay:
 	.unreq view
 	.unreq stop
 	
-/* NEW
-* Clears the terminal to blank.
-* C++ Signature: void TerminalClear();
-*/
+
 .globl TerminalClear
 TerminalClear:
 	ldr r0,=terminalStart
@@ -180,12 +131,7 @@ TerminalClear:
 	str r1,[r0,#terminalView-terminalStart]	
 	mov pc,lr
 	
-/* NEW
-* Prints a string to the terminal at the current location. r0 contains a 
-* pointer to the ASCII encoded string, and r1 contains its length. New lines
-* are obeyed.
-* C++ Signature: void Print(char* string, u32 length);
-*/
+
 .globl Print
 Print:
 	teq r1,#0
@@ -280,12 +226,7 @@ Print:
 	.unreq bufferStop
 	.unreq view
 
-/* NEW
-* Reads the next string a user types in up to r1 bytes and stores it in r0. 
-* Characters types after maxLength are ignored. Keeps reading until the user 
-* presses enter or return. Length of read string is returned in r0.
-* C++ Signature: u32 Print(char* string, u32 maxLength);
-*/
+
 .globl ReadLine
 ReadLine:
 	teq r1,#0
